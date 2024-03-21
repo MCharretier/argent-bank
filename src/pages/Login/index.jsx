@@ -1,14 +1,27 @@
-import { useState } from 'react'
-import { login } from '../../services/api'
-import { setToken } from '../../services/storage'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { userLogin, userProfile } from '../../redux/features/auth/auth.actions'
+import { setAuthorizationToken } from '../../services/api'
 import styles from './styles.module.css'
 
 function Login() {
+    const { userToken, userInfo } = useSelector((state) => state.auth)
     const [formData, setFormData] = useState({
         email: '',
         password: '',
         remember_me: false
     })
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (userInfo) {
+            navigate('/profile')
+        } else if (userToken) {
+            dispatch(userProfile())
+        }
+    }, [userToken, userInfo, dispatch, navigate])
 
     const handleInputChange = (e) => {
         const { name, value } = e.target
@@ -26,16 +39,9 @@ function Login() {
         }))
     }
 
-    const handleFormSubmit = async (e) => {
+    const handleFormSubmit = (e) => {
         e.preventDefault()
-        const res = await login(formData)
-        if (res.status === 400) {
-            return
-        }
-        if (res.status === 200) {
-            const token = res.body.token
-            setToken(token, formData.remember_me)
-        }
+        dispatch(userLogin(formData))
     }
 
     return (

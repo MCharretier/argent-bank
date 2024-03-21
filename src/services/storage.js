@@ -1,12 +1,22 @@
 export const setToken = (token, remember_me) => {
     if (remember_me) {
-        localStorage.setItem('token', token)
-        return
+        localStorage.setItem('userToken', token)
+    } else {
+        sessionStorage.setItem('userToken', token)
     }
-    sessionStorage.setItem('token', token)
 }
 
-export const removeToken = (token) => {
-    localStorage.removeItem('token', token)
-    sessionStorage.removeItem('token', token)
+export const getToken = () => {
+    if (localStorage.getItem('userToken')) {
+        return localStorage.getItem('userToken')
+    }
+    if (sessionStorage.getItem('userToken')) {
+        return localStorage.getItem('userToken')
+    }
+    return null
+}
+
+export const removeToken = () => {
+    localStorage.removeItem('userToken')
+    sessionStorage.removeItem('userToken')
 }
