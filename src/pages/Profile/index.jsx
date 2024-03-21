@@ -1,34 +1,105 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { userProfile } from '../../redux/features/auth/auth.actions'
+import {
+    userGetProfile,
+    userPutProfile
+} from '../../redux/features/profile/profile.actions'
 import styles from './styles.module.css'
 
 function Profile() {
-    const { userToken, userInfo } = useSelector((state) => state.auth)
+    const { userToken } = useSelector((state) => state.auth)
+    const { userInfo } = useSelector((state) => state.profile)
+    const [isEditingName, setIsEditingName] = useState(false)
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: ''
+    })
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     useEffect(() => {
         if (userToken) {
-            dispatch(userProfile())
+            dispatch(userGetProfile())
         } else {
             navigate('/login')
         }
     }, [userToken, dispatch, navigate])
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        dispatch(userPutProfile(formData))
+        setIsEditingName(!isEditingName)
+    }
+
     return (
         <main className="main bg-dark">
             {userInfo ? (
                 <div>
-                    <div className={styles.header}>
-                        <h1>
-                            Welcome back
-                            <br />
-                            {userInfo.firstName} {userInfo.lastName}!
-                        </h1>
-                        <button className={styles.editButton}>Edit Name</button>
-                    </div>
+                    {isEditingName ? (
+                        <div className={styles.header}>
+                            <h1>Welcome back</h1>
+                            <form onSubmit={handleSubmit}>
+                                <div className={styles.inputsWrapper}>
+                                    <input
+                                        type="text"
+                                        name="firstName"
+                                        value={formData.firstName}
+                                        onChange={handleInputChange}
+                                        required
+                                        placeholder={userInfo.firstName}
+                                    />
+                                    <input
+                                        type="text"
+                                        name="lastName"
+                                        value={formData.lastName}
+                                        onChange={handleInputChange}
+                                        required
+                                        placeholder={userInfo.lastName}
+                                    />
+                                </div>
+                                <div className={styles.buttonsWrapper}>
+                                    <button
+                                        type="submit"
+                                        className={styles.editButton}
+                                    >
+                                        Save
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={styles.editButton}
+                                        onClick={() =>
+                                            setIsEditingName(!isEditingName)
+                                        }
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    ) : (
+                        <div className={styles.header}>
+                            <h1>
+                                Welcome back
+                                <br />
+                                {userInfo.firstName} {userInfo.lastName}!
+                            </h1>
+                            <button
+                                className={styles.editButton}
+                                onClick={() => setIsEditingName(!isEditingName)}
+                            >
+                                Edit Name
+                            </button>
+                        </div>
+                    )}
                     <h2 className="sr-only">Accounts</h2>
                     <section className={styles.account}>
                         <div className={styles.accountContentWrapper}>

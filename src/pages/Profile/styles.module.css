@@ -48,6 +48,41 @@
     margin-bottom: 2rem;
 }
 
+.header form {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.header form .inputsWrapper {
+    margin: 1rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.header form .inputsWrapper input {
+    padding: 5px;
+    font-size: 1.2rem;
+    max-width: 248px;
+    width: 100%;
+}
+
+.header form .buttonsWrapper {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.header form .buttonsWrapper button {
+    width: 120px;
+}
+
 .transactionButton {
     display: block;
     width: 100%;

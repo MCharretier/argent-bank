@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { userLogin, userProfile } from '../../redux/features/auth/auth.actions'
-import { setAuthorizationToken } from '../../services/api'
+import { userLogin } from '../../redux/features/auth/auth.actions'
+import { userGetProfile } from '../../redux/features/profile/profile.actions'
 import styles from './styles.module.css'
 
 function Login() {
-    const { userToken, userInfo } = useSelector((state) => state.auth)
+    const { userToken } = useSelector((state) => state.auth)
+    const { userInfo } = useSelector((state) => state.profile)
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -19,7 +20,7 @@ function Login() {
         if (userInfo) {
             navigate('/profile')
         } else if (userToken) {
-            dispatch(userProfile())
+            dispatch(userGetProfile())
         }
     }, [userToken, userInfo, dispatch, navigate])
 

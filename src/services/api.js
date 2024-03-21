@@ -15,8 +15,8 @@ export const setAuthorizationToken = (token) => {
 
 export const login = async ({ email, password }) =>
     await instance.post('/login', {
-        email: email,
-        password: password
+        email,
+        password
     })
 
 const token = getToken()
@@ -25,3 +25,9 @@ if (token) {
 }
 
 export const getProfile = async () => await instance.post('/profile')
+
+export const putProfile = async ({ firstName, lastName }) =>
+    await instance.put('/profile', {
+        firstName,
+        lastName
+    })

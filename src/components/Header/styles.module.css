@@ -16,7 +16,11 @@
 
 .mainNavItem {
     text-decoration: none;
-    margin-right: 0.5rem;
+    margin-right: 1.5rem;
+}
+
+.mainNavItem:last-child {
+    margin-right: 0;
 }
 
 .mainNavItem:hover {

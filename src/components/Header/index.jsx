@@ -5,7 +5,7 @@ import styles from './styles.module.css'
 import argentBankLogo from '../../assets/images/argentBankLogo.png'
 
 function Header() {
-    const { userInfo } = useSelector((state) => state.auth)
+    const { userInfo } = useSelector((state) => state.profile)
     const dispatch = useDispatch()
 
     return (
