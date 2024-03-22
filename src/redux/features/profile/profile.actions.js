@@ -1,11 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { getProfile, putProfile } from '../../../services/api'
+import ApiService from '../../../services/api'
 
 export const userGetProfile = createAsyncThunk(
     'profile/getProfile',
     async (_, { rejectWithValue }) => {
         try {
-            const { data } = await getProfile()
+            const { data } = await ApiService.getProfile()
             return data.body
         } catch (error) {
             if (error.response && error.response.data.message) {
@@ -21,7 +21,10 @@ export const userPutProfile = createAsyncThunk(
     'profile/putProfile',
     async ({ firstName, lastName }, { rejectWithValue }) => {
         try {
-            const { data } = await putProfile({ firstName, lastName })
+            const { data } = await ApiService.putProfile({
+                firstName,
+                lastName
+            })
             return data.body
         } catch (error) {
             if (error.response && error.response.data.message) {

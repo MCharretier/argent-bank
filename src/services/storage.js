@@ -1,4 +1,4 @@
-export const setToken = (token, remember_me) => {
+const setToken = (token, remember_me) => {
     if (remember_me) {
         localStorage.setItem('userToken', token)
     } else {
@@ -6,7 +6,7 @@ export const setToken = (token, remember_me) => {
     }
 }
 
-export const getToken = () => {
+const getToken = () => {
     if (localStorage.getItem('userToken')) {
         return localStorage.getItem('userToken')
     }
@@ -16,7 +16,15 @@ export const getToken = () => {
     return null
 }
 
-export const removeToken = () => {
+const removeToken = () => {
     localStorage.removeItem('userToken')
     sessionStorage.removeItem('userToken')
 }
+
+const StorageService = {
+    setToken,
+    getToken,
+    removeToken
+}
+
+export default StorageService

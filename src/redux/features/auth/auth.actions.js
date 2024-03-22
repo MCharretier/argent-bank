@@ -1,14 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { login, setAuthorizationToken } from '../../../services/api'
-import { setToken } from '../../../services/storage'
+import ApiService from '../../../services/api'
+import StorageService from '../../../services/storage'
 
 export const userLogin = createAsyncThunk(
     'auth/login',
     async ({ email, password, remember_me }, { rejectWithValue }) => {
         try {
-            const { data } = await login({ email, password })
-            setToken(data.body.token, remember_me)
-            setAuthorizationToken(data.body.token)
+            const { data } = await ApiService.login({ email, password })
+            StorageService.setToken(data.body.token, remember_me)
+            ApiService.setAuthorizationToken(data.body.token)
             return data.body.token
         } catch (error) {
             if (error.response && error.response.data.message) {

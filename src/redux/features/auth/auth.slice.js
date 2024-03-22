@@ -1,18 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { userLogin } from './auth.actions'
-import { getToken, removeToken } from '../../../services/storage'
+import StorageService from '../../../services/storage'
 
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
         loading: false,
-        userToken: getToken(),
+        userToken: StorageService.getToken(),
         error: null,
         success: false
     },
     reducers: {
         logout: (state) => {
-            removeToken()
+            StorageService.removeToken()
             state.loading = false
             state.userToken = null
             state.error = null
