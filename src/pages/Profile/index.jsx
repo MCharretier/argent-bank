@@ -36,7 +36,11 @@ function Profile() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        dispatch(userPutProfile(formData))
+        const formattedFormData = {
+            firstName: formData.firstName || userInfo.firstName,
+            lastName: formData.lastName || userInfo.lastName
+        }
+        dispatch(userPutProfile(formattedFormData))
         setIsEditingName(!isEditingName)
     }
 
@@ -54,7 +58,6 @@ function Profile() {
                                         name="firstName"
                                         value={formData.firstName}
                                         onChange={handleInputChange}
-                                        required
                                         placeholder={userInfo.firstName}
                                     />
                                     <input
@@ -62,7 +65,6 @@ function Profile() {
                                         name="lastName"
                                         value={formData.lastName}
                                         onChange={handleInputChange}
-                                        required
                                         placeholder={userInfo.lastName}
                                     />
                                 </div>
