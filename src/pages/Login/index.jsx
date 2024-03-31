@@ -6,7 +6,7 @@ import { userGetProfile } from '../../redux/features/profile/profile.actions'
 import styles from './styles.module.css'
 
 function Login() {
-    const { userToken } = useSelector((state) => state.auth)
+    const { userToken, error } = useSelector((state) => state.auth)
     const { userInfo } = useSelector((state) => state.profile)
     const [formData, setFormData] = useState({
         email: '',
@@ -51,6 +51,7 @@ function Login() {
                 <i className={`fa fa-user-circle ${styles.signInIcon}`}></i>
                 <h1>Sign In</h1>
                 <form onSubmit={handleFormSubmit}>
+                    {error ? <p className={styles.error}>{error}</p> : null}
                     <div className={styles.inputWrapper}>
                         <label htmlFor="email">Username</label>
                         <input
